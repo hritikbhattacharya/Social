@@ -13,7 +13,8 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "lib/firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { db, storage } from "lib/firebase";
 import { useState } from "react";
 import {
   useCollectionData,
@@ -22,14 +23,21 @@ import {
 
 export function useAddPost() {
   const [isLoading, setLoading] = useState();
+  const [file, setFile] = useState(null);
   const toast = useToast();
 
   async function addPost(post) {
     setLoading(true);
+
     const id = uuidv4();
+    const fileRef = ref(storage, "posts/" + id);
+    await uploadBytes(fileRef, file);
+
+    const downloadURL = await getDownloadURL(fileRef);
     await setDoc(doc(db, "posts", id), {
       ...post,
       id,
+      postImg: downloadURL,
       date: Date.now(),
       likes: [],
     });
@@ -38,12 +46,12 @@ export function useAddPost() {
       status: "success",
       isClosable: true,
       duration: 5000,
-      position: "top",
+      position: "bottom-right",
     });
     setLoading(false);
   }
 
-  return { addPost, isLoading };
+  return { setFile, addPost, isLoading };
 }
 
 export function usePosts() {
@@ -69,7 +77,7 @@ export function useToggleLike({ id, isLiked, uid }) {
   return { toggleLike, isLoading };
 }
 
-export function useDeletePost( id ) {
+export function useDeletePost(id) {
   const [isLoading, setLoading] = useState(false);
   const toast = useToast();
   async function deletePost() {
@@ -88,7 +96,7 @@ export function useDeletePost( id ) {
       toast({
         title: "Post is deleted",
         status: "info",
-        position: "top",
+        position: "bottom-right",
         isClosable: true,
         duration: 5000,
       });
@@ -105,7 +113,7 @@ export function usePost(id) {
   const q = doc(db, "posts", id);
   const [post, isLoading, error] = useDocumentData(q);
 
-  if(error) throw error;
+  if (error) throw error;
 
   return { post, isLoading };
 }

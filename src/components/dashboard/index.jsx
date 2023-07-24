@@ -8,11 +8,16 @@ import TextareaAutosize from "react-textarea-autosize";
 
 function NewPost() {
   const { register, handleSubmit, reset } = useForm();
-  const { addPost, isLoading: addingPost } = useAddPost();
+  const { setFile, addPost, isLoading: addingPost } = useAddPost();
   const { user, isLoading: authLoading } = useAuth();
 
-  function handleAddPost(data) {
-    // console.log(data);
+  function handleImg(e) {
+    setFile(e.target.files[0]);
+  }
+
+  function handleAddPost(data, e) {
+    console.log(data);
+
     addPost({
       uid: user.id,
       text: data.text,
@@ -42,6 +47,7 @@ function NewPost() {
           minRows={4}
           {...register("text", { required: true })}
         />
+        <input type="file" accept="image/*" onChange={handleImg} />
       </form>
     </Box>
   );

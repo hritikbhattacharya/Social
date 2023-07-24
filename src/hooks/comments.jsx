@@ -34,7 +34,7 @@ export function useComment({ postID, uid }) {
       title: "comment added",
       status: "success",
       isClosable: true,
-      position: "top",
+      position: "bottom-right",
       duration: 5000,
     });
 
@@ -71,7 +71,7 @@ export function useDeleteComment(id) {
         title: "Comment deleted",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 3000,
       });
       setLoading(false);

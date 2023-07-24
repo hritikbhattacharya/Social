@@ -1,8 +1,8 @@
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
-import { auth, db  } from "lib/firebase";
+import { auth, db } from "lib/firebase";
 import { useEffect, useState } from "react";
 import { DASHBOARD, LOGIN } from "lib/routes";
-import { 
+import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
@@ -13,26 +13,25 @@ import isUsernameExists from "utils/isUsernameExists";
 
 export function useAuth() {
   const [authUser, authLoading, error] = useAuthState(auth);
-  const [user,setUser] = useState(null);
-  const [isLoading , setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
-  useEffect(()=>{
-    async function fetchData(){
+  useEffect(() => {
+    async function fetchData() {
       setLoading(true);
-      const ref = doc(db,"users", authUser.uid);
+      const ref = doc(db, "users", authUser.uid);
       const docSnap = await getDoc(ref);
       setUser(docSnap.data());
       setLoading(false);
     }
-    if(!authLoading) {
-      if(authUser){
-        fetchData()
-      }else{
+    if (!authLoading) {
+      if (authUser) {
+        fetchData();
+      } else {
         setLoading(false);
       }
     }
-
-  },[authLoading,authUser]);
+  }, [authLoading, authUser]);
   return { user, isLoading, error };
 }
 
@@ -49,7 +48,7 @@ export function useLogin() {
         title: "Login success",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 5000,
       });
       navigate(redirectTo);
@@ -59,7 +58,7 @@ export function useLogin() {
         status: "error",
         description: e.message,
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 5000,
       });
       setLoading(false);
@@ -85,14 +84,14 @@ export function useRegister() {
   }) {
     setLoading(true);
 
-    const usernameExists =await isUsernameExists(username);
+    const usernameExists = await isUsernameExists(username);
 
     if (usernameExists) {
       toast({
         title: "Username already exists",
         status: "error",
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 5000,
       });
       setLoading(false);
@@ -112,7 +111,7 @@ export function useRegister() {
           description: "you are now logged in",
           status: "success",
           isClosable: true,
-          position: "top",
+          position: "bottom-right",
           duration: 5000,
         });
         navigate(redirectTo);
@@ -121,7 +120,7 @@ export function useRegister() {
           title: "signup failed",
           status: "error",
           isClosable: true,
-          position: "top",
+          position: "bottom-right",
           duration: 5000,
         });
       } finally {
@@ -146,7 +145,7 @@ export function useLogout() {
         title: "successfully logged out",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 5000,
       });
       navigate(LOGIN);

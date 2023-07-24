@@ -16,6 +16,7 @@ import { useUserPost } from "hooks/posts";
 import PostsList from "components/post/PostsList";
 import EditProfile from "./EditProfile";
 import { useUser } from "hooks/users";
+import { FaEdit } from "react-icons/fa";
 
 export default function Profile() {
   const { id } = useParams();
@@ -39,11 +40,11 @@ export default function Profile() {
             colorScheme={"teal"}
             onClick={onOpen}
           >
-            change avatar
+            <FaEdit />
           </Button>
         )}
         <Stack ml="10">
-          <Text fontSize={"md"}>{user.username}</Text>
+          <Text fontSize={"md"} fontWeight={'md'}>{user.username}</Text>
           <HStack spacing={"10"}>
             <Text color={"gray.700"} fontSize={["sm", "lg"]}>
               post: {posts?.length}

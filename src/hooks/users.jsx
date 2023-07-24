@@ -33,7 +33,7 @@ export function useUpdateAvatar(uid) {
         title: "Choose a file to upload",
         status: "error",
         isClosable: true,
-        position: "top",
+        position: "bottom-right",
         duration: 5000,
       });
 
@@ -52,7 +52,7 @@ export function useUpdateAvatar(uid) {
       title: "Profile updated successfully",
       status: "success",
       isClosable: true,
-      position: "top",
+      position: "bottom-right",
       duration: 5000,
     });
     setLoading(false);

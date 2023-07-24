@@ -6,9 +6,9 @@ import { useAuth } from "hooks/auth";
 import Avatar from "components/profile/Avatar";
 
 function ActivateUser() {
-  const { user,isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  if(isLoading) return "Loading...";
+  if (isLoading) return "Loading...";
 
   return (
     <Stack align="center" spacing="5" my="8">

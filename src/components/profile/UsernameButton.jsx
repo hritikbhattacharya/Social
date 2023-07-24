@@ -4,15 +4,13 @@ import { PROTECTED } from "lib/routes";
 
 export default function UsernameButton({ user }) {
   return (
-    <Box>
-      <Button
-        as={Link}
-        to={`${PROTECTED}/profile/${user.id}`}
-        colorScheme="teal.100"
-        variant="Link"
-      >
-        {user.username}
-      </Button>
-    </Box>
+    <Button
+      as={Link}
+      to={`${PROTECTED}/profile/${user.id}`}
+      colorScheme="teal.100"
+      variant="Link"
+    >
+      {user.username}
+    </Button>
   );
 }
